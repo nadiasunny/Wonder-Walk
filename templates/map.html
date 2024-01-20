@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+  <nav>
+    <section id="links-right">
+      <a href="/">home</a>
+    </section>
+  </nav>
+
+  <section class="map">
+    <div id="map"></div>
+  </section>
+
+  <script src="/static/js/mapsWalk.js"></script>
+  <script
+    async
+    src="https://maps.googleapis.com/maps/api/js?key={{ mapkey }}&callback=initMap">
+  </script>
+  
+{% endblock %}
