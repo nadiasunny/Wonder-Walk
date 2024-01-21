@@ -17,6 +17,7 @@ def index():
 
     return render_template('homepage.html')
 
+
 @app.route("/map/wonderwalk")
 def view_basic_map():
     """Demo of basic map-related code.
@@ -28,12 +29,6 @@ def view_basic_map():
 
     return render_template("map.html", mapkey=KEY)
 
-# @app.route("/map/more")
-# def view_more_demos():
-#     """Demo of basic map-related code.
-#     """
-
-#     return render_template("playmap.html")
 
 @app.route("/map/static/<path:resource>")
 def get_resource(resource):

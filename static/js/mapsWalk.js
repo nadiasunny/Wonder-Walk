@@ -23,6 +23,8 @@ function second_point(lat1, lng1, distance){
 // We use a function declaration for initMap because we actually *do* need
 // to rely on value-hoisting in this circumstance.
 function initMap() {
+  let outcome;
+  // change to being your current location
   const map = new google.maps.Map(document.querySelector('#map'), {
     center: {
       lat: 37.601773,
@@ -30,33 +32,30 @@ function initMap() {
     },
     zoom: 11,
   });
+  const origin = new google.maps.Marker({
+    position: {
+      lat: 37.7887459,
+      lng: -122.4115852,
+    },
+    title: '1st point',
+    map: map,
+  });
+   
   
-  let destin = second_point(37.7887459, -122.4115852, 1);
-  console.log(destin, 'llllllllllllllllllllllllll')
-  // const sfMarker = new google.maps.Marker({
-  //   position: {
-  //     lat: 37.7887459,
-  //     lng: -122.4115852,
-  //   },
-  //   title: '1st point',
-  //   map: map,
-  // });
-
-  // const destinMarker = new google.maps.Marker({
-  //   position: {
-  //     lat: destin.lat,
-  //     lng: destin.lng,
-  //   },
-  //   title: '2nd point',
-  //   map: map,
-  // });
-
+  function anothaOne(){
+    const DISTANCE = parseFloat(document.querySelector('#distance').value);
+    outcome = second_point(37.7887459, -122.4115852, DISTANCE);
+    console.log(outcome);
+    renderDirections(outcome);
+  }
+  document.getElementById('submitBtn').addEventListener('click', anothaOne);
+  
   const directionsService = new google.maps.DirectionsService();
-
-    // The DirectionsRenderer object is in charge of drawing directions
-    // on maps
-    const directionsRenderer = new google.maps.DirectionsRenderer();
-    directionsRenderer.setMap(map);
+  // The DirectionsRenderer object is in charge of drawing directions
+  // on maps
+  const directionsRenderer = new google.maps.DirectionsRenderer();
+  directionsRenderer.setMap(map);
+  function renderDirections(outcome){
 
     const randomRoute = {
       origin: {
@@ -64,8 +63,8 @@ function initMap() {
         lng: -122.4115852,
       },
       destination:{
-        lat: destin.lat, 
-        lng: destin.lng,
+        lat: outcome.lat, 
+        lng: outcome.lng,
       },
       travelMode: 'WALKING',
     };
@@ -74,7 +73,10 @@ function initMap() {
       if (status === 'OK') {
         directionsRenderer.setDirections(response);
       } else {
+        //replace w/func that calls second_point again
         alert(`Directions request unsuccessful due to: ${status}`);
       }
     });
+  }
 }
+

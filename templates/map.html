@@ -10,10 +10,27 @@
       <a href="/">home</a>
     </section>
   </nav>
+<!-- 
+  <label for="distance">How far would you like to walk?(in kilometers)</label>
+  <input type="text" name="distance" id="distance">
+  <button type="submit" id="submitBtn">submit</button> -->
 
   <section class="map">
     <div id="map"></div>
   </section>
+
+  
+  <label for="distance">How far would you like to walk?(in kilometers)</label>
+  <input type="text" name="distance" id="distance">
+  <button type="submit" id="submitBtn">submit</button>
+  <!-- <script>
+    document.getElementById('submitBtn').addEventListener('click', () => {
+    let DISTANCE = parseFloat(document.querySelector('#distance').value);
+    console.log(DISTANCE, typeof(DISTANCE));
+  });
+  
+  
+  </script> -->
 
   <script src="/static/js/mapsWalk.js"></script>
   <script
