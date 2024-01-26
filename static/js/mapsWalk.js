@@ -33,12 +33,14 @@ async function initMap() {
       lat: 37.601773,
       lng: -122.20287,
     },
-    zoom: 11,
+    zoom: 12,
   });
+
+
   //code for user to input string address and map center on their address
   const geocoder = new google.maps.Geocoder();
   let locSubmitButton = document.getElementById('locBtn');
-  let inputText = document.getElementById('userLocation')
+  let inputText = document.getElementById('userLocation');
   locSubmitButton.addEventListener("click", () =>
     geocode({ address: inputText.value }),
   );
@@ -48,10 +50,11 @@ async function initMap() {
       .geocode(request)
       .then((result) => {
         const { results } = result;
-  
+        console.log(result);
         map.setCenter(results[0].geometry.location);
-        userLat = results[0].geometry.location.lat;
-        userLng = results[0].geometry.location.lng;
+        userLat = results[0].geometry.location.lat();
+        userLng = results[0].geometry.location.lng();
+        console.log(userLat, userLng)
         //marker.setPosition(results[0].geometry.location);
         //marker.setMap(map);
         //responseDiv.style.display = "block";
@@ -63,7 +66,7 @@ async function initMap() {
       });
   }
   
-
+  
 
 
   infoWindow = new google.maps.InfoWindow();
@@ -122,7 +125,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   
   function anothaOne(){
     const DISTANCE = parseFloat(document.querySelector('#distance').value);
-    outcome = second_point(37.7887459, -122.4115852, DISTANCE);
+    outcome = second_point(userLat, userLng, DISTANCE);
     renderDirections(outcome);
   }
   document.getElementById('submitBtn').addEventListener('click', anothaOne);
