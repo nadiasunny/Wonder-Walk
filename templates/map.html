@@ -22,15 +22,12 @@
   
   <label for="distance">How far would you like to walk?(in kilometers)</label>
   <input type="text" name="distance" id="distance">
-  <button type="submit" id="submitBtn">submit</button>
-  <!-- <script>
-    document.getElementById('submitBtn').addEventListener('click', () => {
-    let DISTANCE = parseFloat(document.querySelector('#distance').value);
-    console.log(DISTANCE, typeof(DISTANCE));
-  });
-  
-  
-  </script> -->
+  <button type="submit" id="submitBtn">submit</button><br>
+
+  <label for="userLocation">Where would you like to start your walk?</label>
+  <input type="text" name="userLocation" id="userLocation">
+  <button type="submit" id="locBtn">submit</button>
+
 
   <script src="/static/js/mapsWalk.js"></script>
   <script

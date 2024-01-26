@@ -20,11 +20,7 @@ def index():
 
 @app.route("/map/wonderwalk")
 def view_basic_map():
-    """Demo of basic map-related code.
-
-    - Programmatically adding markers, info windows, and event handlers to a
-      Google Map
-    - Showing polylines, directions, etc.
+    """etc.
     """
 
     return render_template("map.html", mapkey=KEY)
@@ -36,7 +32,9 @@ def get_resource(resource):
 
 
 if __name__ == "__main__":
-    app.debug = True
-    connect_to_db(app)
+    cert_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'cert.pem'))
+    key_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'key.pem'))
 
-    app.run(host="0.0.0.0")
+    connect_to_db(app)
+    #app.run(host="0.0.0.0", ssl_context=(cert_path, key_path), debug=True)
+    app.run(host='0.0.0.0', debug=True)
