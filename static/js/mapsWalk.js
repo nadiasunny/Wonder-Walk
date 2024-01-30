@@ -85,6 +85,8 @@ async function initMap() {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
+          userLat = position.coords.latitude;
+          userLng = position.coords.longitude;
           console.log(position);
           infoWindow.setPosition(pos);
           infoWindow.setContent("Location found.");
