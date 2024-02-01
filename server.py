@@ -3,6 +3,7 @@ import os
 
 from flask import (Flask, render_template, send_from_directory, request, flash, session, redirect)
 from model import connect_to_db, db
+from datetime import datetime
 from jinja2 import StrictUndefined
 import crud
 
@@ -31,10 +32,50 @@ def view_basic_map():
 
     return render_template("map.html", mapkey=KEY)
 
+@app.route('/users', methods=['POST'])
+def create_acc():
+    username = request.form.get('username')
+    email = request.form.get('email')
+    password = request.form.get('password')
+    num_of_users = len(crud.get_user_by_email(email))
+    created_on = datetime.now()
+    if (num_of_users == 0):
+        current_user = crud.create_user(username=username, email=email, password=password,
+                                        streak=1, created_at=created_on)
+        db.session.add(current_user)
+        db.session.commit()
+        flash('You have created an account!')
+    elif(num_of_users == 1):
+        flash('Account already exists')
+
+    return redirect('/')
+
+@app.route('/login', methods=['POST'])
+def login():
+    user_email = request.form.get('email')
+    user_password = request.form.get('password')
+    our_user = crud.get_user_by_email(user_email)[0]
+    if (our_user.password == user_password):
+        session['user'] = our_user.id
+        print(session['user'])
+        flash('Logged In!')
+
+    return redirect('/')
+
+@app.route('/logout')
+def logout():
+        
+        print(session.clear())
+        flash('Logged Out!')
+
+        return redirect('/')
+
+
+
 #ajax request
 @app.route('/savewalk', methods=['POST'])
 def walk():
-    """Save walk to db."""
+    """Save walk to db and connect to user."""
     
     end_lat = request.json.get('outcome')['lat']
     end_lng = request.json.get('outcome')['lng']
@@ -42,12 +83,16 @@ def walk():
     start_lat = request.json.get('start')['userLat']
     distance = request.json.get('distance')
     time = request.json.get('minutes')
+    now = datetime.now()
     print(end_lat, start_lat, distance, time)
     walk = crud.save_walk(end_lat=end_lat, end_lng=end_lng, start_lat=start_lat, 
                           start_lng=start_lng, distance=distance, time=time)
-   
     db.session.add(walk)
     db.session.commit()
+    user_walk = crud.create_user_walk(user_id=session['user'], walk_id=walk.id, repeated=1, created_at=now)
+    db.session.add(user_walk)
+    db.session.commit()
+    print(user_walk, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaa')
     print(walk, 'kkkkkkkkkkkk')
     flash('walk added')
     return {'success': True}

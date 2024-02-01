@@ -9,6 +9,10 @@
     <section id="links-right">
       <a href="/">home</a>
       <a href="/login">login</a>
+      {% if session.get('user') %}
+      <a href="/logout">logout</a>
+      <a href="/savedwalks">View saved walks</a>
+      {% endif %}
     </section>
   </nav>
 <!-- 
@@ -29,8 +33,9 @@
   <input type="text" name="userLocation" id="userLocation">
   <button type="submit" id="locBtn">submit</button><br>
 
-
+  {% if session.get('user') %}
   <button type="submit" id="saveBtn">Save This Walk</button><br>
+  {% endif %}
 
 
   <script src="/static/js/mapsWalk.js"></script>
