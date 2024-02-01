@@ -36,7 +36,10 @@ class Walk(db.Model):
     __tablename__ = 'walks'
 
     id = db.Column(db.Integer, nullable=False, primary_key=True, autoincrement=True)
-    coordinates = db.Column(db.Text)
+    start_lat = db.Column(db.Float)
+    start_lng = db.Column(db.Float)
+    end_lat = db.Column(db.Float)
+    end_lng = db.Column(db.Float)
     distance = db.Column(db.Integer)
     time = db.Column(db.Integer)
 

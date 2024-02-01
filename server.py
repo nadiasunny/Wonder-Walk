@@ -1,9 +1,10 @@
 """Server for Wonder Walk app."""
 import os
 
-from flask import Flask, render_template, jsonify, send_from_directory
+from flask import (Flask, render_template, send_from_directory, request, flash, session, redirect)
 from model import connect_to_db, db
 from jinja2 import StrictUndefined
+import crud
 
 app = Flask(__name__)
 app.secret_key = "dev"
@@ -17,6 +18,11 @@ def index():
 
     return render_template('homepage.html')
 
+@app.route("/login")
+def log_on():
+    """Let user log in."""
+
+    return render_template('login_signup.html')
 
 @app.route("/map/wonderwalk")
 def view_basic_map():
@@ -24,6 +30,27 @@ def view_basic_map():
     """
 
     return render_template("map.html", mapkey=KEY)
+
+#ajax request
+@app.route('/savewalk', methods=['POST'])
+def walk():
+    """Save walk to db."""
+    
+    end_lat = request.json.get('outcome')['lat']
+    end_lng = request.json.get('outcome')['lng']
+    start_lng = request.json.get('start')['userLng']
+    start_lat = request.json.get('start')['userLat']
+    distance = request.json.get('distance')
+    time = request.json.get('minutes')
+    print(end_lat, start_lat, distance, time)
+    walk = crud.save_walk(end_lat=end_lat, end_lng=end_lng, start_lat=start_lat, 
+                          start_lng=start_lng, distance=distance, time=time)
+   
+    db.session.add(walk)
+    db.session.commit()
+    print(walk, 'kkkkkkkkkkkk')
+    flash('walk added')
+    return {'success': True}
 
 
 @app.route("/map/static/<path:resource>")

@@ -3,6 +3,10 @@ let map;
 let infoWindow;
 let userLat;
 let userLng;
+let outcome;
+let minutes;
+let distance;
+
 function second_point(lat1, lng1, distance){
     let bearing = Math.floor(Math.random() * (Math.floor(360) - Math.ceil(0) + 1) + Math.ceil(0)) * (Math.PI/180);
     let lat1_rad = lat1 * (Math.PI/180);
@@ -26,7 +30,7 @@ function second_point(lat1, lng1, distance){
 // We use a function declaration for initMap because we actually *do* need
 // to rely on value-hoisting in this circumstance.
 async function initMap() {
-  let outcome;
+
   // change to being your current location
   map = new google.maps.Map(document.querySelector('#map'), {
     center: {
@@ -50,11 +54,10 @@ async function initMap() {
       .geocode(request)
       .then((result) => {
         const { results } = result;
-        console.log(result);
         map.setCenter(results[0].geometry.location);
         userLat = results[0].geometry.location.lat();
         userLng = results[0].geometry.location.lng();
-        console.log(userLat, userLng)
+  
         //marker.setPosition(results[0].geometry.location);
         //marker.setMap(map);
         //responseDiv.style.display = "block";
@@ -87,7 +90,6 @@ async function initMap() {
           };
           userLat = position.coords.latitude;
           userLng = position.coords.longitude;
-          console.log(position);
           infoWindow.setPosition(pos);
           infoWindow.setContent("Location found.");
           infoWindow.open(map);
@@ -115,19 +117,10 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.open(map);
   }
   
-  //working directions code
-  let origin = new google.maps.Marker({
-    position: {
-      lat: 37.7887459,
-      lng: -122.4115852,
-    },
-    title: '1st point',
-    map: map,
-  });
-  
+
   function anothaOne(){
-    const DISTANCE = parseFloat(document.querySelector('#distance').value);
-    outcome = second_point(userLat, userLng, DISTANCE);
+    distance = parseFloat(document.querySelector('#distance').value);
+    outcome = second_point(userLat, userLng, distance);
     renderDirections(outcome);
   }
   document.getElementById('submitBtn').addEventListener('click', anothaOne);
@@ -155,12 +148,45 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     directionsService.route(randomRoute, (response, status) => {
       if (status === 'OK') {
         directionsRenderer.setDirections(response);
+        console.log(response);
+        let duration = 0;
+        let legs = response.routes[0].legs;
+        for (let leg of legs){
+          duration += leg.duration.value;
+        }
+        minutes = Number((duration/60));
+        console.log('minutes',minutes);
       } else {
         //replace w/func that calls second_point again
         alert(`Directions request unsuccessful due to: ${status}`);
       }
     });
   }
+
+  function saveDirections(){
+    if (userLat && userLng && outcome && distance && minutes) {
+      let walkSpec = {start:{userLat, userLng}, outcome, distance, minutes};
+      console.log(walkSpec);
+      
+      fetch('/savewalk', {
+        method:'POST',
+        body: JSON.stringify(walkSpec),
+        headers: {
+        'Content-Type': 'application/json',
+        },
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson.status);
+        console.log(responseJson.success);
+      });
+  } else{
+    console.log(userLat, userLng, outcome, distance, minutes)
+  }
+}
+
+  document.getElementById('saveBtn').addEventListener('click', saveDirections);
+
 }
 
 window.initMap = initMap;
