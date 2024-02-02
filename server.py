@@ -84,19 +84,26 @@ def walk():
     distance = request.json.get('distance')
     time = request.json.get('minutes')
     now = datetime.now()
-    print(end_lat, start_lat, distance, time)
-    walk = crud.save_walk(end_lat=end_lat, end_lng=end_lng, start_lat=start_lat, 
-                          start_lng=start_lng, distance=distance, time=time)
-    db.session.add(walk)
-    db.session.commit()
-    user_walk = crud.create_user_walk(user_id=session['user'], walk_id=walk.id, repeated=1, created_at=now)
-    db.session.add(user_walk)
-    db.session.commit()
-    print(user_walk, 'aaaaaaaaaaaaaaaaaaaaaaaaaaaa')
-    print(walk, 'kkkkkkkkkkkk')
-    flash('walk added')
+    walk_already = crud.return_walk(end_lat=end_lat, end_lng=end_lng, start_lat=start_lat, start_lng=start_lng)
+    
+    if(walk_already):
+        flash('walk already saved')
+    else:
+        walk = crud.save_walk(end_lat=end_lat, end_lng=end_lng, start_lat=start_lat, 
+                          start_lng=start_lng, distance_in_km=distance, time=time)
+        db.session.add(walk)
+        db.session.commit()
+        user_walk = crud.create_user_walk(user_id=session['user'], walk_id=walk.id, created_at=now)
+        db.session.add(user_walk)
+        db.session.commit()
+        flash('walk added')
+   
     return {'success': True}
 
+@app.route('/savedwalks')
+def display_walks():
+    walks = crud.return_users_walks(session['user'])
+    return render_template('/display_walks.html', walks=walks)
 
 @app.route("/map/static/<path:resource>")
 def get_resource(resource):

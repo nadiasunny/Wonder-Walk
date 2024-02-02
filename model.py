@@ -40,7 +40,8 @@ class Walk(db.Model):
     start_lng = db.Column(db.Float)
     end_lat = db.Column(db.Float)
     end_lng = db.Column(db.Float)
-    distance = db.Column(db.Integer)
+    #distance unit
+    distance_in_km = db.Column(db.Float)
     time = db.Column(db.Integer)
 
     user_walks = db.relationship('User_Walk', back_populates='walk')
@@ -60,7 +61,7 @@ class User_Walk(db.Model):
     id = db.Column(db.Integer, nullable=False, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     walk_id = db.Column(db.Integer, db.ForeignKey('walks.id'), nullable=False)
-    repeated = db.Column(db.Integer, nullable = False)
+    #repeated = db.Column(db.Integer, nullable = False)
     rating = db.Column(db.Integer)
     comments = db.Column(db.Text)
     images = db.Column(db.String)
@@ -76,7 +77,7 @@ class User_Walk(db.Model):
         return f'<User_Walk id={self.id} user_id={self.user_id} walk_id = {self.walk_id}>'
     
 
-
+#suggestion: add avatar to user table, if I don't want to show past avatars
 class Avatar(db.Model):
     """Data model for user avatar"""
 

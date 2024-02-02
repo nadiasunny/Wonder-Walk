@@ -15,10 +15,11 @@
       {% endif %}
     </section>
   </nav>
-<!-- 
-  <label for="distance">How far would you like to walk?(in kilometers)</label>
-  <input type="text" name="distance" id="distance">
-  <button type="submit" id="submitBtn">submit</button> -->
+  {% for msg in get_flashed_messages() %}
+  <p class="flash-msg">
+    {{ msg }}
+  </p>
+  {% endfor %}
 
   <section class="map">
     <div id="map"></div>
