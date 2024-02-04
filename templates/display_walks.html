@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block head %}Your saved walks{% endblock %}
+
+{% block body%}
+    <p>{{walks}}</p>
+    <div id="accordion">
+        {% for walk in walks%}
+        <div class="card">
+          <div class="card-header" id="heading{{loop.index}}">
+            <h5 class="mb-0">
+              <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse{{loop.index}}" aria-expanded="false" aria-controls="collapse{{loop.index}}">
+                Walk #{{loop.index}} completed on {{walk.created_at}}
+              </button>
+            </h5>
+          </div>
+          <div id="collapse{{loop.index}}" class="collapse" aria-labelledby="heading{{loop.index}}" data-parent="#accordion">
+            <div class="card-body">
+                <form class="infoForm">
+                    <div class="form-row">
+                      <div class="form-group col-md-6">
+                        <label for="inputComments">Comments</label>
+                        <textarea class="form-control inputComments" rows="3"></textarea>
+                      </div>
+                      <div class="form-group col-md-4">
+                        <label for="inputRating">Rating</label>
+                        <select id="inputRating" class="form-control inputRating">
+                          <option selected>Choose...</option>
+                          <option>0</option>
+                          <option>1</option>
+                          <option>2</option>
+                          <option>3</option>
+                          <option>4</option>
+                          <option>5</option>
+                        </select>
+                      </div>
+                      <div class="form-group">
+                        <label for="addFiles">Want to add any pics?</label>
+                        <input type="file" class="form-control-file addFiles" id="addFiles">
+                      </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="infoSaveBtn">Save</button>
+                  </form>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <script src="/static/js/displayWalks.js"></script>
+{% endblock %}
