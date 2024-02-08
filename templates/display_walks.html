@@ -3,43 +3,46 @@
 {% block head %}Your saved walks{% endblock %}
 
 {% block body%}
-    <p>{{walks}}</p>
+    
     <div id="accordion">
         {% for walk in walks%}
         <div class="card">
           <div class="card-header" id="heading{{loop.index}}">
             <h5 class="mb-0">
               <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapse{{loop.index}}" aria-expanded="false" aria-controls="collapse{{loop.index}}">
-                Walk #{{loop.index}} completed on {{walk.created_at}}
+                Walk completed on {{walk.created_at}}
               </button>
             </h5>
           </div>
           <div id="collapse{{loop.index}}" class="collapse" aria-labelledby="heading{{loop.index}}" data-parent="#accordion">
             <div class="card-body">
                 <form class="infoForm">
+                  <input type="hidden" class="index" name="custId" value="{{walk.id}}">
                     <div class="form-row">
                       <div class="form-group col-md-6">
                         <label for="inputComments">Comments</label>
-                        <textarea class="form-control inputComments" rows="3"></textarea>
+                        <textarea class="form-control inputComments" rows="3">{{walk.comments}}</textarea>
                       </div>
                       <div class="form-group col-md-4">
                         <label for="inputRating">Rating</label>
-                        <select id="inputRating" class="form-control inputRating">
-                          <option selected>Choose...</option>
-                          <option>0</option>
-                          <option>1</option>
-                          <option>2</option>
-                          <option>3</option>
-                          <option>4</option>
-                          <option>5</option>
+                        <select class="form-control inputRating">
+                          <!-- loop from 0-5, if index matches rating, add selected to that option -->
+                          <option>Choose...</option>
+                          {% for i in range(6) %}
+                              {% if i == walk.rating %}
+                                  <option selected>{{i}}</option>
+                              {% else %}
+                                  <option>{{i}}</option>
+                             {% endif %}
+                          {% endfor %}
                         </select>
                       </div>
-                      <div class="form-group">
+                      <!-- <div class="form-group">
                         <label for="addFiles">Want to add any pics?</label>
-                        <input type="file" class="form-control-file addFiles" id="addFiles">
-                      </div>
+                        <input type="file" class="form-control-file addFiles">
+                      </div> -->
                     </div>
-                    <button type="submit" class="btn btn-primary" id="infoSaveBtn">Save</button>
+                    <button type="submit" class="btn btn-primary infoSaveBtn">Save</button>
                   </form>
             </div>
           </div>

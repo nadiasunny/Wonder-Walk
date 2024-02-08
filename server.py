@@ -100,10 +100,27 @@ def walk():
    
     return {'success': True}
 
-@app.route('/savedwalks')
+@app.route('/savedwalks')                  # JUST LINES 103-107 are rendering 
 def display_walks():
-    walks = crud.return_users_walks(session['user'])
+    walks = crud.return_users_walks(session['user']) 
     return render_template('/display_walks.html', walks=walks)
+
+@app.route('/updateUserWalk', methods=['POST'])
+def update_user_walk():
+
+    comments = request.json.get('comments')
+    rating = int(request.json.get('rating'))
+    # img = request.json.get('img')
+    walk_index = int(request.json.get('walkIndex'))
+    
+    #run the function, make the print statement separate
+    #make sure you're using the correct UserWalk id
+    print(type(comments), type(rating), type(img), type(walk_index), 'aaaaaaaaaaaaaaaaa')
+    updated_walk = crud.update_user_walk(user_id=session['user'], user_walk_id=walk_index, comments=comments, rating=rating)
+    print(updated_walk)
+    db.session.execute(updated_walk)
+    db.session.commit()
+    return {'success': True}
 
 @app.route("/map/static/<path:resource>")
 def get_resource(resource):

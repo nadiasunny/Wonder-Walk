@@ -62,9 +62,9 @@ class User_Walk(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     walk_id = db.Column(db.Integer, db.ForeignKey('walks.id'), nullable=False)
     #repeated = db.Column(db.Integer, nullable = False)
-    rating = db.Column(db.Integer)
+    rating = db.Column(db.Integer, default=0)
     comments = db.Column(db.Text)
-    images = db.Column(db.String)
+    # images = db.Column(db.String)
     created_at = db.Column(db.DateTime, nullable=False)
 
     user = db.relationship('User', back_populates='user_walks')

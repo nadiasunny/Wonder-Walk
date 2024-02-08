@@ -1,6 +1,7 @@
 """CRUD operations."""
 
 from model import db, User, Walk, User_Walk, connect_to_db
+from sqlalchemy import update, and_
 
 
 def save_walk(end_lat, end_lng, start_lat, start_lng, distance_in_km, time):
@@ -25,6 +26,8 @@ def create_user(username, email, password, streak, created_at):
 def return_user():
     user = User.get()
     return user
+def return_walk_by_id(walk_id):
+    return Walk.query.filter(Walk.id == walk_id).all()
 
 def return_walk(end_lat, end_lng, start_lat, start_lng):
     check_for_walk = Walk.query.filter(Walk.end_lat==end_lat, Walk.end_lng==end_lng, Walk.start_lat==start_lat,
@@ -41,6 +44,18 @@ def create_user_walk(user_id, walk_id, created_at):
 def return_users_walks(user_id):
     walks = User_Walk.query.filter(User_Walk.user_id == user_id).all()
     return walks
+
+def update_user_walk(user_id, user_walk_id, comments, rating, images):
+    # user_walk = User_Walk.query.filter(User_Walk.user_id == user_id and
+    #                                    User_Walk.walk_id == walk_id)
+    user_walk = update(User_Walk).filter(and_(User_Walk.user_id == user_id, User_Walk.id == user_walk_id)
+                                        ).values(comments=comments, rating=rating, images=images)
+    
+    # grab userwalk by id
+    #update attributes by hand
+    # return userwalk instance
+    #to be committed
+    return user_walk
 
 if __name__ == '__main__':
     from server import app
