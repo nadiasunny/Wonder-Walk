@@ -39,12 +39,17 @@ async function initMap() {
     },
     zoom: 12,
   });
-
+  
+  let walkControls = document.getElementById('walkControls');
+  map.controls[google.maps.ControlPosition.LEFT_TOP].push(walkControls);
 
   //code for user to input string address and map center on their address
   const geocoder = new google.maps.Geocoder();
   let locSubmitButton = document.getElementById('locBtn');
   let inputText = document.getElementById('userLocation');
+  //inputText.value = 'What is your location?'
+  //map.controls[google.maps.ControlPosition.LEFT_TOP].push(inputText);
+  //map.controls[google.maps.ControlPosition.LEFT_TOP].push(locSubmitButton);
   locSubmitButton.addEventListener("click", () =>
     geocode({ address: inputText.value }),
   );
@@ -70,14 +75,12 @@ async function initMap() {
   }
   
   
-
-
   infoWindow = new google.maps.InfoWindow();
 
   const locationButton = document.createElement("button");
 
   locationButton.textContent = "Pan to Current Location";
-  locationButton.classList.add("custom-map-control-button");
+  locationButton.classList.add("map-control-button");
   map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
   locationButton.addEventListener("click", () => {
     // Try HTML5 geolocation.
@@ -123,7 +126,10 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     outcome = second_point(userLat, userLng, distance);
     renderDirections(outcome);
   }
-  document.getElementById('submitBtn').addEventListener('click', anothaOne);
+  let distanceBtn = document.getElementById('submitBtn');
+  let distance = document.getElementById('distance')
+  distanceBtn.addEventListener('click', anothaOne);
+  
   
   const directionsService = new google.maps.DirectionsService();
   // The DirectionsRenderer object is in charge of drawing directions
@@ -184,9 +190,9 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     console.log(userLat, userLng, outcome, distance, minutes)
   }
 }
-
-  document.getElementById('saveBtn').addEventListener('click', saveDirections);
-
+  const saveWalkBtn = document.getElementById('walkSaveBtn');
+  saveWalkBtn.addEventListener('click', saveDirections);
+  //map.controls[google.maps.ControlPosition.LEFT_TOP].push(saveWalkBtn);
 }
 
 window.initMap = initMap;

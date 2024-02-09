@@ -10,12 +10,40 @@
     {% block head %}{% endblock %}
   </head>
   <body>
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+        <a class="navbar-brand" href="#">Wonder Walk</a>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          <li class="nav-item active">
+            <a class="nav-link" href="/map/wonderwalk">Home <span class="sr-only">(current)</span></a>
+          </li>
+          {% if session.get('user') %}
+            <li class="nav-item">
+              <a class="nav-link" href="/savedwalks">Saved Walks</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">Log Out</a>
+            </li>
+          {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Log In</a>
+            </li>
+          {% endif %}
+          
+    
+        </ul>
+      </div>
+    </nav>
 
-    <!-- {% for msg in get_flashed_messages() %}
+    {% for msg in get_flashed_messages() %}
     <p class="flash-msg">
       {{ msg }}
     </p>
-    {% endfor %} -->
+    {% endfor %}
 
     {% block body %}
     {% endblock %}

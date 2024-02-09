@@ -13,17 +13,16 @@ app.jinja_env.undefined = StrictUndefined
 
 KEY = os.environ['MAP_KEY']
 
-@app.route("/")
-def index():
-    """Show homepage."""
-
-    return render_template('homepage.html')
 
 @app.route("/login")
 def log_on():
     """Let user log in."""
 
     return render_template('login_signup.html')
+#there should only be the first one and all other instances of /map/wonderwalk --> /
+@app.route('/')
+def homepage():
+    return render_template("map.html", mapkey=KEY)
 
 @app.route("/map/wonderwalk")
 def view_basic_map():
@@ -60,7 +59,7 @@ def login():
         print(session['user'])
         flash('Logged In!')
 
-    return redirect('/')
+    return redirect('/map/wonderwalk')
 
 @app.route('/logout')
 def logout():
@@ -68,7 +67,7 @@ def logout():
         print(session.clear())
         flash('Logged Out!')
 
-        return redirect('/')
+        return redirect('/map/wonderwalk')
 
 
 

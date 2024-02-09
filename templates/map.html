@@ -5,38 +5,23 @@
 {% endblock %}
 
 {% block body %}
-  <nav>
-    <section id="links-right">
-      <a href="/">home</a>
-      <a href="/login">login</a>
-      {% if session.get('user') %}
-      <a href="/logout">logout</a>
-      <a href="/savedwalks">View saved walks</a>
-      {% endif %}
-    </section>
-  </nav>
-  {% for msg in get_flashed_messages() %}
-  <p class="flash-msg">
-    {{ msg }}
-  </p>
-  {% endfor %}
 
   <section class="map">
     <div id="map"></div>
   </section>
+  <div id="walkControls">
+    <label for="userLocation">Where would you like to start your walk?</label><br>
+    <input type="text" name="userLocation" id="userLocation">
+    <button type="submit" class="map-control-button"id="locBtn">submit</button><br>
 
-  
-  <label for="distance">How far would you like to walk?(in kilometers)</label>
-  <input type="text" name="distance" id="distance">
-  <button type="submit" id="submitBtn">submit</button><br>
+    <label for="distance">How far would you like to walk?(kilometers)</label><br>
+    <input type="text" name="distance" id="distance">
+    <button type="submit" id="submitBtn" class="map-control-button">submit</button><br>
 
-  <label for="userLocation">Where would you like to start your walk?</label>
-  <input type="text" name="userLocation" id="userLocation">
-  <button type="submit" id="locBtn">submit</button><br>
-
-  {% if session.get('user') %}
-  <button type="submit" id="saveBtn">Save This Walk</button><br>
-  {% endif %}
+    {% if session.get('user') %}
+      <button type="submit" id="walkSaveBtn" class="map-control-button">Save This Walk</button><br>
+    {% endif %}
+  </div>
 
 
   <script src="/static/js/mapsWalk.js"></script>
