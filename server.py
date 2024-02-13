@@ -83,6 +83,9 @@ def walk():
     distance = request.json.get('distance')
     time = request.json.get('minutes')
     now = datetime.now()
+    print(now, 'kkkkkkkkkkkkkkkkkkk')
+    formatted_date = now.strftime("%m-%d-%Y %I:%M %p")
+    print(type(formatted_date), formatted_date, 'aaaaaaaaaa')
     walk_already = crud.return_walk(end_lat=end_lat, end_lng=end_lng, start_lat=start_lat, start_lng=start_lng)
     
     if(walk_already):
@@ -92,7 +95,7 @@ def walk():
                           start_lng=start_lng, distance_in_km=distance, time=time)
         db.session.add(walk)
         db.session.commit()
-        user_walk = crud.create_user_walk(user_id=session['user'], walk_id=walk.id, created_at=now)
+        user_walk = crud.create_user_walk(user_id=session['user'], walk_id=walk.id, created_at=formatted_date)
         db.session.add(user_walk)
         db.session.commit()
         flash('walk added')
@@ -109,12 +112,10 @@ def update_user_walk():
 
     comments = request.json.get('comments')
     rating = int(request.json.get('rating'))
-    # img = request.json.get('img')
     walk_index = int(request.json.get('walkIndex'))
-    
-    #run the function, make the print statement separate
-    #make sure you're using the correct UserWalk id
-    print(type(comments), type(rating), type(img), type(walk_index), 'aaaaaaaaaaaaaaaaa')
+
+
+    print(type(comments), type(rating), type(walk_index), 'aaaaaaaaaaaaaaaaa')
     updated_walk = crud.update_user_walk(user_id=session['user'], user_walk_id=walk_index, comments=comments, rating=rating)
     print(updated_walk)
     db.session.execute(updated_walk)

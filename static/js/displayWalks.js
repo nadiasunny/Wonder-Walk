@@ -15,10 +15,9 @@ for (let i = 0; i < forms.length; i++){
         // evt.target.querySelector(skjdngjkdf)
         let comments = forms[i].querySelector('.inputComments').value;
         let rating = forms[i].querySelector('.inputRating').value;
-        // let img = forms[i].querySelector('.addFiles').value;
         let walkIndex = forms[i].querySelector('.index').value;
         console.log(walkIndex)
-        let walkInfo = {comments, rating, img, walkIndex};
+        let walkInfo = {comments, rating, walkIndex};
         fetch('/updateUserWalk', {
             method:'POST',
             body: JSON.stringify(walkInfo),

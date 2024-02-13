@@ -28,15 +28,34 @@ body{
     overflow: hidden;
     height: 40px;
     cursor: pointer;
-  }
-  .map-control-button:hover {
+}
+.map-control-button:hover {
     background: rgb(235, 235, 235);
-  }
-  label{
+}
+label{
     height: 2px;
     font: 400 18px Roboto;
-  }
-  input{
+}
+input{
     height: 30px;
     font: 400 18px Roboto;
-  }
+}
+#id{
+    color: black;
+}
+.card{
+    background-color:rgba(192, 214, 243, 0.936);
+    color: black;
+
+}
+.card:hover{
+    background:blue;
+}
+.btn{
+    color: black;
+    background-color: white;
+    width: 100%;
+}
+.btn:hover{
+    color:white;
+}

@@ -40,16 +40,16 @@ def create_user_walk(user_id, walk_id, created_at):
     user_walk = User_Walk(user_id=user_id, walk_id=walk_id, created_at=created_at)
 
     return user_walk
-
+#
 def return_users_walks(user_id):
     walks = User_Walk.query.filter(User_Walk.user_id == user_id).all()
     return walks
 
-def update_user_walk(user_id, user_walk_id, comments, rating, images):
+def update_user_walk(user_id, user_walk_id, comments, rating):
     # user_walk = User_Walk.query.filter(User_Walk.user_id == user_id and
     #                                    User_Walk.walk_id == walk_id)
     user_walk = update(User_Walk).filter(and_(User_Walk.user_id == user_id, User_Walk.id == user_walk_id)
-                                        ).values(comments=comments, rating=rating, images=images)
+                                        ).values(comments=comments, rating=rating)
     
     # grab userwalk by id
     #update attributes by hand

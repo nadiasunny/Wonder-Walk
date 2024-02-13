@@ -1,4 +1,6 @@
 'use strict';
+
+
 let map;
 let infoWindow;
 let userLat;
@@ -6,6 +8,15 @@ let userLng;
 let outcome;
 let minutes;
 let distance;
+let url;
+
+const options = {
+	method: 'GET',
+	headers: {
+		'X-RapidAPI-Key': '{blank for now}',
+		'X-RapidAPI-Host': 'isitwater-com.p.rapidapi.com'
+	}
+};
 
 function second_point(lat1, lng1, distance){
     let bearing = Math.floor(Math.random() * (Math.floor(360) - Math.ceil(0) + 1) + Math.ceil(0)) * (Math.PI/180);
@@ -23,7 +34,9 @@ function second_point(lat1, lng1, distance){
     lat: parseFloat((lat2_rad * (180/Math.PI)).toFixed(6)),
     lng: parseFloat((lng2_rad *(180/Math.PI)).toFixed(6))
   }
-  
+  url = `https://isitwater-com.p.rapidapi.com/?latitude=${second_point.lat}&longitude=${second_point.lng}`;
+  second_point['url'] = url;
+  console.log(second_point);
   return second_point;
 }
 
@@ -37,7 +50,16 @@ async function initMap() {
       lat: 37.601773,
       lng: -122.20287,
     },
-    zoom: 12,
+    zoom: 16,
+  });
+
+  const marker = new google.maps.Marker({
+    position: {
+      lat: 37.601773,
+      lng: -122.20287,
+    },
+    title: 'Here!',
+    map: map,
   });
   
   let walkControls = document.getElementById('walkControls');
@@ -47,9 +69,7 @@ async function initMap() {
   const geocoder = new google.maps.Geocoder();
   let locSubmitButton = document.getElementById('locBtn');
   let inputText = document.getElementById('userLocation');
-  //inputText.value = 'What is your location?'
-  //map.controls[google.maps.ControlPosition.LEFT_TOP].push(inputText);
-  //map.controls[google.maps.ControlPosition.LEFT_TOP].push(locSubmitButton);
+  
   locSubmitButton.addEventListener("click", () =>
     geocode({ address: inputText.value }),
   );
@@ -63,8 +83,8 @@ async function initMap() {
         userLat = results[0].geometry.location.lat();
         userLng = results[0].geometry.location.lng();
   
-        //marker.setPosition(results[0].geometry.location);
-        //marker.setMap(map);
+        marker.setPosition(results[0].geometry.location);
+        marker.setMap(map);
         //responseDiv.style.display = "block";
         //response.innerText = JSON.stringify(result, null, 2);
         return results;
@@ -91,6 +111,7 @@ async function initMap() {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
+          marker.setPosition(position)
           userLat = position.coords.latitude;
           userLng = position.coords.longitude;
           infoWindow.setPosition(pos);
@@ -124,8 +145,10 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   function anothaOne(){
     distance = parseFloat(document.querySelector('#distance').value);
     outcome = second_point(userLat, userLng, distance);
+    console.log(second_point['url'])
     renderDirections(outcome);
   }
+  
   let distanceBtn = document.getElementById('submitBtn');
   let distance = document.getElementById('distance')
   distanceBtn.addEventListener('click', anothaOne);
@@ -137,8 +160,15 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   const directionsRenderer = new google.maps.DirectionsRenderer();
   directionsRenderer.setMap(map);
 
-  function renderDirections(outcome){
-
+  async function renderDirections(outcome){
+    
+    try {
+      const response = await fetch(url, options);
+      const result = await response.text();
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
     const randomRoute = {
       origin: {
         lat: userLat,
