@@ -83,9 +83,9 @@ def walk():
     distance = request.json.get('distance')
     time = request.json.get('minutes')
     now = datetime.now()
-    print(now, 'kkkkkkkkkkkkkkkkkkk')
+    
     formatted_date = now.strftime("%m-%d-%Y %I:%M %p")
-    print(type(formatted_date), formatted_date, 'aaaaaaaaaa')
+
     walk_already = crud.return_walk(end_lat=end_lat, end_lng=end_lng, start_lat=start_lat, start_lng=start_lng)
     
     if(walk_already):
