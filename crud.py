@@ -13,7 +13,7 @@ def save_walk(end_lat, end_lng, start_lat, start_lng, distance_in_km, time):
 
 
 def get_user_by_email(user_email):
-    """Return user by use"""
+    """Return user by user email"""
     return User.query.filter(User.email == user_email).all()
 
 def create_user(username, email, password, streak, created_at):
@@ -42,12 +42,12 @@ def create_user_walk(user_id, walk_id, created_at):
     return user_walk
 #
 def return_users_walks(user_id):
-    walks = User_Walk.query.filter(User_Walk.user_id == user_id).all()
+    walks = User_Walk.query.filter(User_Walk.user_id == user_id).order_by(User_Walk.created_at.desc()).all()
+
     return walks
 
 def update_user_walk(user_id, user_walk_id, comments, rating):
-    # user_walk = User_Walk.query.filter(User_Walk.user_id == user_id and
-    #                                    User_Walk.walk_id == walk_id)
+
     user_walk = update(User_Walk).filter(and_(User_Walk.user_id == user_id, User_Walk.id == user_walk_id)
                                         ).values(comments=comments, rating=rating)
     
