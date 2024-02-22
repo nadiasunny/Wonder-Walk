@@ -26,7 +26,7 @@ Enter desired length of walk and have a random walk generated.
 Save a walk.
 View and edit walk entries.
 
-## <a name="set Up"></a>Tech Stack
+## <a name="set Up"></a>Set Up
 1. Make a copy of the repo.
 2. Activate and set up virtual environment. 
     - Make sure to pip install -r requirements.txt
