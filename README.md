@@ -16,6 +16,7 @@ See the <a href="https://www.youtube.com/watch?v=nHU7M8jQVxk">Demo Reel.</a>
 ## <a name="tech-stack"></a>Tech Stack
 __Front End:__ HTML5, Jinja2, CSS, JavaScript, AJAX, jQuery, Bootstrap<br/>
 __Back End:__ Python, Flask, PostgreSQL, SQLAlchemy <br/>
+__API's:__ Google Maps API 
 
 ## <a name="features"></a>Features
 
@@ -39,3 +40,5 @@ View and edit walk entries.
  
 
 ## <a name="Developer"></a>Tech Stack
+
+Nadia Hina is a curious engineer excited by the opportunities around her.
