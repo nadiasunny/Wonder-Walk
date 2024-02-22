@@ -20,3 +20,7 @@ __Back End:__ Python, Flask, PostgreSQL, SQLAlchemy <br/>
 ## <a name="features"></a>Features
 
 Create and Log in to an account.
+Choose to input address(geocoding) or click the pan to the current location button(HTML5 geolocation). 
+Enter desired length of walk and have a random walk generated.
+Save a walk.
+View and edit walk entries.
