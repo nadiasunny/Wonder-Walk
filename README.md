@@ -5,8 +5,8 @@
 * [Summary](#summary)
 * [Tech Stack](#tech-stack)
 * [Features](#features)
-* [Setup](#setup)
-* [Developer](#developer)
+* [Set Up](#setup)
+* [Engineer](#engineer)
 
 ## <a name="summary"></a>Summary
 **WonderWalk** is a self improvement app to help people live better. Emphasis on small steps to create habits. User's can go on random walks and create reflections.
@@ -26,7 +26,7 @@ Enter desired length of walk and have a random walk generated.
 Save a walk.
 View and edit walk entries.
 
-## <a name="set Up"></a>Set Up
+## <a name="setup"></a>Set Up
 1. Make a copy of the repo.
 2. Activate and set up virtual environment. 
     - Make sure to pip install -r requirements.txt
@@ -39,6 +39,6 @@ View and edit walk entries.
 7. Run server.py and go to localhost:5000 and take the first step.
  
 
-## <a name="Developer"></a>Tech Stack
+## <a name="engineer"></a>Engineered By
 
 Nadia Hina is a curious engineer excited by the opportunities around her.
