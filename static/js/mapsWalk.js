@@ -20,6 +20,7 @@ const options = {
 };
 
 function second_point(lat1, lng1, distance){
+  //given lat1, lng1, distance return random second lat & lng
     let bearing = Math.floor(Math.random() * (Math.floor(360) - Math.ceil(0) + 1) + Math.ceil(0)) * (Math.PI/180);
     let lat1_rad = lat1 * (Math.PI/180);
     let lng1_rad = lng1 * (Math.PI/180);
@@ -46,6 +47,11 @@ function second_point(lat1, lng1, distance){
 //api call count 
 //while api call count below 10, 
 // run generating second point 
+function onWater(lat, lng){
+  url = `https://isitwater-com.p.rapidapi.com/?latitude=${lat}&longitude=${lng}`;
+  
+  
+}
 
 // We use a function declaration for initMap because we actually *do* need
 // to rely on value-hoisting in this circumstance.
@@ -60,6 +66,7 @@ async function initMap() {
     zoom: 16,
   });
 
+  //marker for user
   const marker = new google.maps.Marker({
     position: {
       lat: 37.601773,
@@ -69,6 +76,7 @@ async function initMap() {
     map: map,
   });
   
+  //walkControls is a div that contains distance, location, and if signed in submit
   let walkControls = document.getElementById('walkControls');
   map.controls[google.maps.ControlPosition.LEFT_TOP].push(walkControls);
 
@@ -77,16 +85,21 @@ async function initMap() {
   let locSubmitButton = document.getElementById('locBtn');
   let inputText = document.getElementById('userLocation');
   
+  //when submit button for inputted address is clicked
   locSubmitButton.addEventListener("click", () =>
+    //geocode function is called
     geocode({ address: inputText.value }),
   );
 
+  //geocode request
   function geocode(request) {
     geocoder
       .geocode(request)
       .then((result) => {
         const { results } = result;
+        //map is centered on user location
         map.setCenter(results[0].geometry.location);
+        //user's lat & lng are assigned
         userLat = results[0].geometry.location.lat();
         userLng = results[0].geometry.location.lng();
   
@@ -148,7 +161,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.open(map);
   }
   
-
+  //helper function that calls second point and passes it to be rendered
   function anothaOne(){
     distance = parseFloat(document.querySelector('#distance').value);
     outcome = second_point(userLat, userLng, distance);
@@ -206,6 +219,8 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     });
   }
 
+  //checks that there is user location and preferences and sends to server to be 
+  //saved to database
   function saveDirections(){
     if (userLat && userLng && outcome && distance && minutes) {
       let walkSpec = {start:{userLat, userLng}, outcome, distance, minutes};
@@ -229,7 +244,6 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
   const saveWalkBtn = document.getElementById('walkSaveBtn');
   saveWalkBtn.addEventListener('click', saveDirections);
-  //map.controls[google.maps.ControlPosition.LEFT_TOP].push(saveWalkBtn);
 }
 
-window.initMap = initMap;
+window.initMap = initMap; 
