@@ -1,6 +1,7 @@
 'use strict';
+//more comments: beefier, make the milk industry proud
 
-
+// only the ones I want to use globally, if nothing outside init map needs to referred to it, can stay inside init map()
 let map;
 let infoWindow;
 let userLat;
@@ -34,11 +35,17 @@ function second_point(lat1, lng1, distance){
     lat: parseFloat((lat2_rad * (180/Math.PI)).toFixed(6)),
     lng: parseFloat((lng2_rad *(180/Math.PI)).toFixed(6))
   }
+  // 37-40 inside helper function 
   url = `https://isitwater-com.p.rapidapi.com/?latitude=${second_point.lat}&longitude=${second_point.lng}`;
   second_point['url'] = url;
   console.log(second_point);
   return second_point;
 }
+//helper function, 
+//is water is true
+//api call count 
+//while api call count below 10, 
+// run generating second point 
 
 // We use a function declaration for initMap because we actually *do* need
 // to rely on value-hoisting in this circumstance.

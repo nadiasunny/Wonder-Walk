@@ -47,7 +47,7 @@ def create_acc():
     elif(num_of_users == 1):
         flash('Account already exists')
 
-    return redirect('/')
+    return redirect('/login')
 
 @app.route('/login', methods=['POST'])
 def login():

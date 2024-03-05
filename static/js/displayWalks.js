@@ -1,4 +1,5 @@
 'use strict';
+//few more comments
 
 let forms = document.querySelectorAll('.infoForm');
 

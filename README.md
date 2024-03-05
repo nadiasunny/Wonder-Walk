@@ -41,4 +41,4 @@ View and edit walk entries.
 
 ## <a name="engineer"></a>Engineered By
 
-Nadia Hina is a curious engineer excited by the opportunities around her.
+Nadia Hina, a curious learner excited by the opportunities around her.
