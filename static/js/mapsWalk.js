@@ -91,8 +91,9 @@ async function initMap() {
     geocode({ address: inputText.value }),
   );
 
-  //geocode request
+
   function geocode(request) {
+  //geocode request
     geocoder
       .geocode(request)
       .then((result) => {
@@ -118,10 +119,11 @@ async function initMap() {
   infoWindow = new google.maps.InfoWindow();
 
   const locationButton = document.createElement("button");
-
   locationButton.textContent = "Pan to Current Location";
   locationButton.classList.add("map-control-button");
   map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+
+
   locationButton.addEventListener("click", () => {
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
@@ -151,34 +153,36 @@ async function initMap() {
   });
 
 
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-  infoWindow.setPosition(pos);
-  infoWindow.setContent(
-    browserHasGeolocation
-      ? "Error: The Geolocation service failed."
-      : "Error: Your browser doesn't support geolocation.",
+  function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(
+      browserHasGeolocation
+        ? "Error: The Geolocation service failed."
+        : "Error: Your browser doesn't support geolocation.",
   );
-  infoWindow.open(map);
+    infoWindow.open(map);
   }
   
-  //helper function that calls second point and passes it to be rendered
+  
   function anothaOne(){
+    //helper function that calls second point and passes it to be rendered
     distance = parseFloat(document.querySelector('#distance').value);
     outcome = second_point(userLat, userLng, distance);
     console.log(second_point['url'])
     renderDirections(outcome);
   }
   
+
   let distanceBtn = document.getElementById('submitBtn');
   let distance = document.getElementById('distance')
   distanceBtn.addEventListener('click', anothaOne);
-  
   
   const directionsService = new google.maps.DirectionsService();
   // The DirectionsRenderer object is in charge of drawing directions
   // on maps
   const directionsRenderer = new google.maps.DirectionsRenderer();
   directionsRenderer.setMap(map);
+
 
   async function renderDirections(outcome){
     
@@ -219,9 +223,10 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     });
   }
 
+
+  function saveDirections(){
   //checks that there is user location and preferences and sends to server to be 
   //saved to database
-  function saveDirections(){
     if (userLat && userLng && outcome && distance && minutes) {
       let walkSpec = {start:{userLat, userLng}, outcome, distance, minutes};
       console.log(walkSpec);
