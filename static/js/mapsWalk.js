@@ -1,4 +1,6 @@
 'use strict';
+//import axios from 'axios';
+
 //more comments: beefier, make the milk industry proud
 
 // only the ones I want to use globally, if nothing outside init map needs to referred to it, can stay inside init map()
@@ -11,13 +13,7 @@ let minutes;
 let distance;
 let url;
 
-const options = {
-	method: 'GET',
-	headers: {
-		'X-RapidAPI-Key': '{blank for now}',
-		'X-RapidAPI-Host': 'isitwater-com.p.rapidapi.com'
-	}
-};
+
 
 function second_point(lat1, lng1, distance){
   //given lat1, lng1, distance return random second lat & lng
@@ -37,9 +33,7 @@ function second_point(lat1, lng1, distance){
     lng: parseFloat((lng2_rad *(180/Math.PI)).toFixed(6))
   }
   // 37-40 inside helper function 
-  url = `https://isitwater-com.p.rapidapi.com/?latitude=${second_point.lat}&longitude=${second_point.lng}`;
-  second_point['url'] = url;
-  console.log(second_point);
+  onWater(second_point, bearing);
   return second_point;
 }
 //helper function, 
@@ -47,11 +41,29 @@ function second_point(lat1, lng1, distance){
 //api call count 
 //while api call count below 10, 
 // run generating second point 
-function onWater(lat, lng){
-  url = `https://isitwater-com.p.rapidapi.com/?latitude=${lat}&longitude=${lng}`;
+async function onWater(second_point, bearing){
   
-  
-}
+  const options_1 = {
+    method: 'GET',
+    url: 'https://isitwater-com.p.rapidapi.com/',
+    params: {
+      latitude: second_point.lat,
+      longitude: second_point.lng
+    },
+    headers: {
+      'X-RapidAPI-Key': '8a50d8b2femsh4c3502357658975p135f2ejsn673c5602165e',
+      'X-RapidAPI-Host': 'isitwater-com.p.rapidapi.com'
+    }
+  };
+
+  try {
+    const response = await axios.request(options_1);
+    console.log(response.data);
+  } catch (error) {
+    console.error(error);
+  }
+  return second_point;
+  }
 
 // We use a function declaration for initMap because we actually *do* need
 // to rely on value-hoisting in this circumstance.
